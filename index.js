@@ -1,5 +1,4 @@
 const express = require("express");
-const { json } = require("stream/consumers");
 const multer = require('multer')
 const path = require('path')
 const app = express();
@@ -8,7 +7,7 @@ app.use('/static',express.static('public'))
 
 var storage = multer.diskStorage({
     destination : function(req, file, cb){
-        cb(null, path.join('public/upload'));
+        cb(null, path.join(__dirname,'public/upload'));
     },
     filename : function(req, file, cb){
         let imgname = new Date().getTime();
@@ -27,4 +26,7 @@ app.post('/imageUpload',uploads.single("image"),async (req,res)=>{
 })
 
 
-app.listen(5000,()=>{})
+app.listen(5000,(err)=>{
+    if(err) return console.log(err);
+    console.log("app is running at 5000");
+})
